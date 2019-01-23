@@ -2,10 +2,11 @@
 Simple and small library(uncompiled, WIP) made for fun and as a part of learning process. It's for dealing with terminal parameters passed to an application
 
 # TODO
-- [] Parameters controll - secure the scope of pointers in `services_execute` method
-- [] If possible, remove requirenment for FlagService pointer from it's methods
-- [] ... (I don't know right now, but for sure I'll figure out something)
-- [] Compile and pack it into library
+- [ ] Finish this README
+- [ ] Parameters controll - secure the scope of pointers in `services_execute` method
+- [ ] If possible, remove requirenment for FlagService pointer from it's methods
+- [ ] ... (I don't know right now, but for sure I'll figure out something)
+- [ ] Compile and pack it into library
 
 # Usage(Step by step)
 ## 1. First of all you need to create new FlagService, do it with:
