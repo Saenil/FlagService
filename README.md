@@ -1,5 +1,5 @@
 # FlagService
-Simple and small library(uncompiled, WIP) made for fun and as a part of learning process. It's for dealing with terminal parameters passed to an application
+Simple and small library - I want it to be library - (uncompiled, WIP) made for fun and as a part of learning process. It's for dealing with terminal parameters passed to an application
 
 # TODO
 - [ ] Finish this README
@@ -65,10 +65,6 @@ void print(char **argv) {
     printf("%s ", argv[n]);
   }
   printf("\n");
-}
-
-void say(char **argv) {
-  printf("Say: %s\n", argv[0]);
 }
 
 int main(int argc, char **argv) {
