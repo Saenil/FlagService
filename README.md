@@ -1,5 +1,5 @@
 # FlagService
-Simple and small library(uncompiled, WIP) for dealing with terminal parameters passed to an application
+Simple and small library(uncompiled, WIP) made for fun and as a part of learning process. It's for dealing with terminal parameters passed to an application
 
 # TODO
 * Parameters controll - secure the scope of pointers in `services_execute` method
@@ -14,7 +14,7 @@ FlagService *fsrvc = flagsrvc_new();
 ```
 ## 2. Register some flags/services:
 ```c
-fsrvc->reg(<FlagService>, <Flag>);
+<FlagService>->reg(<FlagService>, <Flag>);
 ```
 * `<FlagService>` is pointer to FlagService created in first step
 * `<Flag>` is pointer to Flag, which we can create with:
@@ -25,17 +25,42 @@ flag_new(<short_tag>, <full_tag>, <action>, <nr_of_parameters>).
 * `<full_tag>`  it's self-descriptive(ex.: -help)
 * `<action>` is pointer to function/method that should be triggered when we use `<short_tag>` or `<full_tag>`
 * `<nr_of_parameters>` is integer number of parameters that should be passed to `<action>` after trigger was enabled
+> **IMPORTANT** parameters are passed into `<action>` as array of character arrays or in other words, as array of "strings"
 ### Example:
 ```c
 fsrvc->reg(fsrvc, flag_new("-h", "-help", &help, 0)); // I assume that help() is implemented
 ```
 ## 3. Execute flags/services:
 ```c
-fsrvc->exec(<FlagService>, <parameters_count>, <array_of_parameters>);
+<FlagService>->exec(<FlagService>, <parameters_count>, <array_of_parameters>);
 ```
 * `<parameters_count>` is simply an integer number of entered parameters(ex.: argc)
 * `<array_of_parameters>` is char array of parameters(ex.: argv)
 ### Example:
 ```c
 fsrvc->exec(fsrvc, argc, argv); // argc and argv are from main(int argc, char **argv)
+```
+
+# Other
+## Unregister flag/service:
+Both do the same, but first is able to find index of `<Tag>` by it self, second one need index passed as an argument.
+```c
+<FlagService>->unreg_tag(<FlagService>, <Tag>);
+```
+or
+```c
+<FlagService>->unreg(<FlagService>, <index_of_flag>);
+```
+* `<Tag>` can be `<short_tag>` or `<full_tag>`
+* `<index_of_flag>` integer representing index of flag/service we want to unregister. We can find it with `find(<Tag>)` method.
+```c
+<FlagService>->find(<FlagService>, <Tag>);
+```
+### Example 1.
+```c
+fsrvc->unreg_tag(fsrvc, "-help"); // Of course you can pass "-h" if you want to
+```
+### Example 2.
+```c
+fsrvc->unreg(fsrvc, fsrvc->find(fsrvc, "-help")); // Same
 ```
