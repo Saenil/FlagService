@@ -2,10 +2,10 @@
 Simple and small library(uncompiled, WIP) made for fun and as a part of learning process. It's for dealing with terminal parameters passed to an application
 
 # TODO
-* Parameters controll - secure the scope of pointers in `services_execute` method
-* If possible, remove requirenment for FlagService pointer from it's methods
-* ... (I don't know right now, but for sure I'll figure out something)
-* Compile and pack it into library
+- [] Parameters controll - secure the scope of pointers in `services_execute` method
+- [] If possible, remove requirenment for FlagService pointer from it's methods
+- [] ... (I don't know right now, but for sure I'll figure out something)
+- [] Compile and pack it into library
 
 # Usage(Step by step)
 ## 1. First of all you need to create new FlagService, do it with:
@@ -28,7 +28,7 @@ flag_new(<short_tag>, <full_tag>, <action>, <nr_of_parameters>).
 > **IMPORTANT** parameters are passed into `<action>` as array of character arrays or in other words, as array of "strings"
 ### Example:
 ```c
-fsrvc->reg(fsrvc, flag_new("-h", "-help", &help, 0)); // I assume that help() is implemented
+fsrvc->reg(fsrvc, flag_new("-h", "-help", &help, 0)); // I assume that help() is allready implemented
 ```
 ## 3. Execute flags/services:
 ```c
@@ -39,6 +39,54 @@ fsrvc->reg(fsrvc, flag_new("-h", "-help", &help, 0)); // I assume that help() is
 ### Example:
 ```c
 fsrvc->exec(fsrvc, argc, argv); // argc and argv are from main(int argc, char **argv)
+```
+## Complete Example:
+```c
+#include "flagsrvc.h"
+
+FlagService *fsrvc;
+
+void help() {
+  printf("======= Help =======\nThis is example help,\nprinted thanks to FlagService\'s ;)\n======= Help =======\n");
+}
+
+void hello_world() {
+  printf("Hello Wolrd!\n");
+}
+
+void flagservice_list() {
+  fsrvc->list(fsrvc);
+}
+
+void print(char **argv) {
+  int n;
+  for (n = 0; n < 3; n++) {
+    printf("%s ", argv[n]);
+  }
+  printf("\n");
+}
+
+void say(char **argv) {
+  printf("Say: %s\n", argv[0]);
+}
+
+int main(int argc, char **argv) {
+
+  // Create new flag service
+  fsrvc = flagsrvc_new();
+
+  // Register new flags/services
+  fsrvc->reg(fsrvc, flag_new("-h", "-help", &help, 0));
+  fsrvc->reg(fsrvc, flag_new("-w", "-helloworld", &hello_world, 0));
+  fsrvc->reg(fsrvc, flag_new("-fs", "-flags", &flagservice_list, 0));
+  fsrvc->reg(fsrvc, flag_new("-p", "-print", &print, 3));
+
+  // Execute flags/services
+  fsrvc->exec(fsrvc, argc, argv);
+
+  return 0;
+}
+
 ```
 
 # Other
