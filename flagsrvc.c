@@ -44,7 +44,14 @@ Flag* services_get(FlagService *flagservice, int index) {
 
 Flag* services_get_tag(FlagService *flagservice, char *tag) {
   int index = flagservice->find(flagservice, tag);
-  return flagservice->services[index];
+  if (index > -1) {
+    return flagservice->services[index];
+  }
+  return NULL;
+}
+
+int is_flag(char *array) {
+  return (array[0] == '-') || (array[0] == '/') ? 1 : 0;
 }
 
 void services_list(FlagService *flagservice) {
@@ -59,18 +66,31 @@ void services_list(FlagService *flagservice) {
 void services_execute(FlagService *flagservice, int count, char **argv) {
   int i;
   for (i = 1; i < count; i++) {
-    int index = flagservice->find(flagservice, argv[i]);
-    if (index > -1) {
-      Flag *f = flagservice->get(flagservice, index);
-      if (f->have_params) {
-        char *params[f->params_count];
-        int j;
-        for (j = 0; j < f->params_count; j++) {
-          params[j] = argv[++i]; //TODO: Kontrola strumienia -> Sprawdzanie czy aby przypadkowo nie weszliśmy na coś innego niż oczekiwane parametry
+    // printf("%s\n", argv[i]);
+    if (argv[i][0] == '-') {
+      // printf("Flag captured! -> %s\n", argv[i]);
+      int index = flagservice->find(flagservice, argv[i]);
+      if (index > -1) {
+        Flag *f = flagservice->get(flagservice, index);
+        // printf("Flag found! Expected parameters: %d\n", f->params_count);
+        if (f->have_params) {
+          char *params[f->params_count];
+          int j;
+          for (j = 0; j < f->params_count; j++) {
+            if (argv[++i] && argv[i][0] != '-') {
+              // printf("Param[%d]: %s\n", j, argv[i]);
+              params[j] = argv[i];
+            } else {
+              --i;
+              params[j] = NULL;
+            }
+          }
+          f->action(params);
+        } else {
+          f->action(NULL);
         }
-        f->action(params);
       } else {
-        f->action(NULL);
+        // Flag not found, ignore
       }
     }
   }
