@@ -50,10 +50,6 @@ Flag* services_get_tag(FlagService *flagservice, char *tag) {
   return NULL;
 }
 
-int is_flag(char *array) {
-  return (array[0] == '-') || (array[0] == '/') ? 1 : 0;
-}
-
 void services_list(FlagService *flagservice) {
   int i;
   printf("============================== Registered Services ===============================\n", i);
