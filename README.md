@@ -29,7 +29,7 @@ flag_new(<short_tag>, <full_tag>, <action>, <nr_of_parameters>).
 > **IMPORTANT** parameters are passed into `<action>` as array of character arrays or in other words, as array of "strings"
 ### Example:
 ```c
-fsrvc->reg(fsrvc, flag_new("-h", "-help", &help, 0)); // I assume that help() is allready implemented
+fsrvc->reg(fsrvc, flag_new("-h", "-help", &help, 0)); // I assume that help() is already implemented
 ```
 ## 3. Execute flags/services:
 ```c
