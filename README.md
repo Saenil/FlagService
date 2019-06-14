@@ -6,6 +6,8 @@ Simple and small library - I want it to be library - (uncompiled, WIP) made for 
 - [x] Parameters controll - secure the scope of pointers in `services_execute` method
 - [ ] If possible, remove requirenment for FlagService pointer from it's methods
 - [ ] ... (I don't know right now, but for sure I'll figure out something)
+- [ ] Re-write everything and make it simpler and more intuitive
+- [ ] Refactoring
 - [ ] Compile and pack it into library
 
 # Usage(Step by step)
